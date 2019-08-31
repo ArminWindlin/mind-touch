@@ -42,26 +42,12 @@ public class Game extends Application {
         scene1.setOnKeyPressed(e -> {
             int xOld = ball1.getX();
             int yOld = ball1.getY();
+            int action = 0;
             String code = e.getCode().toString();
 
-            switch (code) {
-                case "LEFT":
-                    ball1.setX(ball1.getX() - 1);
-                    break;
-                case "RIGHT":
-                    ball1.setX(ball1.getX() + 1);
-                    break;
-                case "UP":
-                    ball1.setY(ball1.getY() - 1);
-                    break;
-                case "DOWN":
-                    ball1.setY(ball1.getY() + 100);
-                    break;
-                default:
-            }
 
             //drawFrame(gc, ball1);
-            animation3(gc, ball1);
+            animation3(gc, ball1, code);
         });
 
         drawFrame(gc, ball1);
@@ -93,20 +79,38 @@ public class Game extends Application {
         timeline.play();
     }
 
-    private void animation3(GraphicsContext gc, GameObject ball1) {
+    private void animation3(GraphicsContext gc, GameObject ball1, String code) {
+
+        DirectionIndicator dir = new DirectionIndicator(0, 0);
+
+        switch (code) {
+            case "LEFT":
+                dir.setX(-1);
+                break;
+            case "RIGHT":
+                dir.setX(1);
+                break;
+            case "UP":
+                dir.setY(-1);
+                break;
+            case "DOWN":
+                dir.setY(1);
+                break;
+            default:
+        }
+
         int initialX = ball1.getX();
+        int initialY = ball1.getY();
         AnimationTimer animationTimer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                // Clear the canvas
-                ball1.setX(ball1.getX() + 2);
+                ball1.setX(ball1.getX() + 2 * dir.getX());
+                ball1.setY(ball1.getY() + 2 * dir.getY());
+                // clear the canvas
                 gc.clearRect(0, 0, 1500, 900);
                 drawFrame(gc, ball1);
-                System.out.println(ball1.getX());
-                System.out.println(ball1.getX() - initialX);
-                System.out.println(currentNanoTime);
-                if(ball1.getX() - initialX >= 100){
-                    System.out.println("hey");
-                this.stop();}
+                if (Math.abs(ball1.getX() - initialX) >= 40 || Math.abs(ball1.getY() - initialY) >= 40) {
+                    this.stop();
+                }
             }
         };
         animationTimer.start();
