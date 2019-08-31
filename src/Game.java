@@ -23,31 +23,31 @@ import java.util.ArrayList;
 
 public class Game extends Application {
 
-    Stage window;
-    Scene scene1, scene2;
+    private Stage window;
+    private DirectionIndicator dir;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+    public void start(Stage primaryStage) {
         Group root = new Group();
         Scene scene1 = new Scene(root);
 
-        Canvas canvas = new Canvas(1500, 900);
+        Canvas canvas = new Canvas(1280, 680);
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        GameObject ball1 = new GameObject(500, 500);
+        GameObject ball1 = new GameObject(40, 8 * 40);
+
+        // to make sure only one key action runs at a time
+        KeyLock keyLock = new KeyLock();
 
         scene1.setOnKeyPressed(e -> {
-            int xOld = ball1.getX();
-            int yOld = ball1.getY();
-            int action = 0;
+            if (keyLock.isLocked()) {
+                return;
+            }
+            keyLock.lock();
             String code = e.getCode().toString();
-
-
-            //drawFrame(gc, ball1);
-            animation3(gc, ball1, code);
+            animation3(gc, ball1, code, keyLock);
         });
 
         drawFrame(gc, ball1);
@@ -60,26 +60,25 @@ public class Game extends Application {
     }
 
     private void drawFrame(GraphicsContext gc, GameObject ball1) {
+        // clear the canvas
+        gc.clearRect(0, 0, 1280, 680);
         gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, 1500, 900);
+        gc.fillRect(0, 0, 1280, 680);
         gc.setFill(Color.BLUE);
-        gc.fillOval(ball1.getX(), ball1.getY(), 30, 30);
+        gc.fillOval(ball1.getX(), ball1.getY(), 40, 40);
+
+        // draw grid
+        for (int i = 0; i < 17; i++) {
+            for (int j = 0; j < 32; j++) {
+                gc.setStroke(Color.BLACK);
+                gc.strokeRect(j * 40, i * 40, 40, 40);
+
+            }
+
+        }
     }
 
-    private void animation2(GraphicsContext gc, GameObject ball1) {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            ball1.setX(ball1.getX() + 1);
-            gc.setFill(Color.WHITE);
-            gc.fillRect(0, 0, 1500, 900);
-            gc.setFill(Color.BLUE);
-            gc.fillOval(ball1.getX(), ball1.getY(), 30, 30);
-
-        }));
-        timeline.setCycleCount(1);
-        timeline.play();
-    }
-
-    private void animation3(GraphicsContext gc, GameObject ball1, String code) {
+    private void animation3(GraphicsContext gc, GameObject ball1, String code, KeyLock keyLock) {
 
         DirectionIndicator dir = new DirectionIndicator(0, 0);
 
@@ -103,13 +102,12 @@ public class Game extends Application {
         int initialY = ball1.getY();
         AnimationTimer animationTimer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                ball1.setX(ball1.getX() + 2 * dir.getX());
-                ball1.setY(ball1.getY() + 2 * dir.getY());
-                // clear the canvas
-                gc.clearRect(0, 0, 1500, 900);
+                ball1.setX(ball1.getX() + 4 * dir.getX());
+                ball1.setY(ball1.getY() + 4 * dir.getY());
                 drawFrame(gc, ball1);
                 if (Math.abs(ball1.getX() - initialX) >= 40 || Math.abs(ball1.getY() - initialY) >= 40) {
                     this.stop();
+                    keyLock.unlock();
                 }
             }
         };
@@ -142,10 +140,23 @@ public class Game extends Application {
                 yAnim--;
             }
             gc.setFill(Color.WHITE);
-            gc.fillRect(0, 0, 1500, 900);
+            gc.fillRect(0, 0, 1280, 720);
             gc.setFill(Color.BLUE);
             gc.fillOval(xOld + xAnim, yOld + yAnim, 30, 30);
         }
+    }
+
+    private void animation2(GraphicsContext gc, GameObject ball1) {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            ball1.setX(ball1.getX() + 1);
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, 1280, 720);
+            gc.setFill(Color.BLUE);
+            gc.fillOval(ball1.getX(), ball1.getY(), 30, 30);
+
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     private void closeProgram() {
