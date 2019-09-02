@@ -5,6 +5,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+import java.util.Objects;
+
 public class Main extends Application {
 
     Stage window;
@@ -16,8 +19,8 @@ public class Main extends Application {
         window = primaryStage;
 
         Button button1 = new Button();
-        button1.setText("Too scene 2");
-        button1.setOnAction(e -> window.setScene(scene2));
+        button1.setText("PLAY");
+        button1.setOnAction(e -> window.setScene(new Game(this).getGameScene()));
 
         Button button2 = new Button();
         button2.setText("Too scene 1");
@@ -41,6 +44,10 @@ public class Main extends Application {
         window.setOnCloseRequest(e -> closeProgram());
         window.setScene(scene1);
         window.show();
+    }
+
+    void goToMenu(){
+        window.setScene(scene1);
     }
 
     private void closeProgram() {

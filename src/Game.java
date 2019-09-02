@@ -1,35 +1,34 @@
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
-public class Game extends Application {
+public class Game {
 
-    private Stage window;
+    private Main main;
     private DirectionIndicator dir;
+    Group root;
+    Scene gameScene;
 
-    @Override
-    public void start(Stage primaryStage) {
-        Group root = new Group();
-        Scene scene1 = new Scene(root);
+    public Scene getGameScene() {
+        return gameScene;
+    }
+
+    public Game(Main main) {
+        this.main = main;
+        this.start();
+    }
+
+    private void start() {
+        root = new Group();
+        gameScene = new Scene(root);
 
         Canvas canvas = new Canvas(1280, 680);
         root.getChildren().add(canvas);
@@ -41,23 +40,22 @@ public class Game extends Application {
         // to make sure only one key action runs at a time
         KeyLock keyLock = new KeyLock();
 
-        scene1.setOnKeyPressed(e -> {
+        gameScene.setOnKeyPressed(e -> {
             if (keyLock.isLocked()) {
                 return;
             }
             keyLock.lock();
             String code = e.getCode().toString();
             animation3(gc, ball1, code, keyLock);
+            System.out.println(code);
+            if (Objects.equals(code, "ESCAPE")) {
+                main.goToMenu();
+            }
         });
 
         drawFrame(gc, ball1);
-
-        window = primaryStage;
-        window.setTitle("MindTouch");
-        window.setScene(scene1);
-        window.setOnCloseRequest(e -> closeProgram());
-        window.show();
     }
+
 
     private void drawFrame(GraphicsContext gc, GameObject ball1) {
         // clear the canvas
@@ -157,13 +155,5 @@ public class Game extends Application {
         }));
         timeline.setCycleCount(1);
         timeline.play();
-    }
-
-    private void closeProgram() {
-        window.close();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
