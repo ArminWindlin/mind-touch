@@ -14,6 +14,7 @@ class Game {
 
     private Main main;
     private Scene gameScene;
+    private Canvas canvas;
 
     Scene getGameScene() {
         return gameScene;
@@ -28,13 +29,11 @@ class Game {
         Group root = new Group();
         gameScene = new Scene(root);
 
-        Canvas canvas = new Canvas(main.WINDOW_WIDTH, main.WINDOW_HEIGHT);
+        canvas = new Canvas(main.WINDOW_WIDTH, main.WINDOW_HEIGHT);
         root.getChildren().add(canvas);
 
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
         GameObject ball1 = new GameObject(40, 8 * 40);
-        GameObject ball2 = new GameObject(10*40, 8 * 40);
+        GameObject ball2 = new GameObject(28 * 40, 8 * 40);
 
         // to make sure only one key action runs at a time
         KeyLock keyLock = new KeyLock();
@@ -45,18 +44,20 @@ class Game {
             }
             keyLock.lock();
             String code = e.getCode().toString();
-            animation3(gc, ball1, ball2, code, keyLock);
+            animation3(ball1, ball2, code, keyLock);
             System.out.println(code);
             if (Objects.equals(code, "ESCAPE")) {
                 main.goToMenu();
             }
         });
 
-        drawFrame(gc, ball1, ball2);
+        drawFrame(ball1, ball2);
     }
 
 
-    private void drawFrame(GraphicsContext gc, GameObject ball1, GameObject ball2) {
+    private void drawFrame(GameObject ball1, GameObject ball2) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
         // clear the canvas
         gc.clearRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
         gc.setFill(Color.WHITE);
@@ -77,7 +78,7 @@ class Game {
         }
     }
 
-    private void animation3(GraphicsContext gc, GameObject ball1, GameObject ball2, String code, KeyLock keyLock) {
+    private void animation3(GameObject ball1, GameObject ball2, String code, KeyLock keyLock) {
 
         DirectionIndicator dir = new DirectionIndicator(0, 0);
 
@@ -103,7 +104,9 @@ class Game {
             public void handle(long currentNanoTime) {
                 ball1.setX(ball1.getX() + 4 * dir.getX());
                 ball1.setY(ball1.getY() + 4 * dir.getY());
-                drawFrame(gc, ball1, ball2);
+                ball2.setX(ball2.getX() + 4 * dir.getX() * -1);
+                ball2.setY(ball2.getY() + 4 * dir.getY());
+                drawFrame(ball1, ball2);
                 if (Math.abs(ball1.getX() - initialX) >= 40 || Math.abs(ball1.getY() - initialY) >= 40) {
                     this.stop();
                     keyLock.unlock();
