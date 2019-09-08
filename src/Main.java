@@ -1,53 +1,52 @@
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.scene.control.*;
-
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-import java.util.Objects;
 
 public class Main extends Application {
 
-    Stage window;
-    Scene scene1, scene2;
+    final int WINDOW_WIDTH = 1200;
+    final int WINDOW_HEIGHT = 680;
+
+    private Stage window;
+    private Scene scene1;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         window = primaryStage;
 
-        Button button1 = new Button();
-        button1.setText("PLAY");
-        button1.setOnAction(e -> window.setScene(new Game(this).getGameScene()));
+        Group root = new Group();
+        Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
+        root.getChildren().add(canvas);
+        scene1 = new Scene(root);
 
-        Button button2 = new Button();
-        button2.setText("Too scene 1");
-        button2.setOnAction(e -> window.setScene(scene1));
-
-        Button button3 = new Button();
-        button3.setText("Alert Test");
-        button3.setOnAction(e -> AlertBox.display("awesome", "not"));
-
-        Label label1 = new Label("hey scene 1");
-
-        VBox layout1 = new VBox(20);
-        layout1.getChildren().addAll(label1, button1);
-        scene1 = new Scene(layout1, 200, 200);
-
-        StackPane layout2 = new StackPane();
-        layout2.getChildren().addAll(button2);
-        scene2 = new Scene(layout2, 600, 300);
+        scene1.setOnMouseClicked(e -> window.setScene(new Game(this).getGameScene()));
 
         window.setTitle("MindTouch");
         window.setOnCloseRequest(e -> closeProgram());
         window.setScene(scene1);
         window.show();
+        drawMenu(canvas);
     }
 
-    void goToMenu(){
+    void goToMenu() {
         window.setScene(scene1);
+    }
+
+    private void drawMenu(Canvas canvas) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, WINDOW_WIDTH, WINDOW_WIDTH);
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, WINDOW_WIDTH, WINDOW_WIDTH);
+        gc.strokeRect(300, 150, 600, 100);
+        gc.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
+        gc.setFill(Color.BLACK);
+        gc.fillText("PLAY", 500, 225);
     }
 
     private void closeProgram() {
