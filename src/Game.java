@@ -14,6 +14,7 @@ class Game {
     private Scene gameScene;
     private Canvas canvas;
     private GameView gameView;
+    private GameController gameController;
 
     Scene getGameScene() {
         return gameScene;
@@ -31,7 +32,11 @@ class Game {
         canvas = new Canvas(main.WINDOW_WIDTH, main.WINDOW_HEIGHT);
         root.getChildren().add(canvas);
 
+        // View
         gameView = new GameView(main, canvas);
+
+        // Controller
+        gameController = new GameController();
 
         GameObject ball1 = new GameObject(40, 8 * 40);
         GameObject ball2 = new GameObject(28 * 40, 8 * 40);
@@ -52,7 +57,7 @@ class Game {
             }
         });
 
-        gameView.drawFrame(ball1, ball2);
+        gameView.drawGrid(gameController.getBoardGrid());
     }
 
     private void animation3(GameObject ball1, GameObject ball2, String code, KeyLock keyLock) {
@@ -83,7 +88,8 @@ class Game {
                 ball1.setY(ball1.getY() + 4 * dir.getY());
                 ball2.setX(ball2.getX() + 4 * dir.getX() * -1);
                 ball2.setY(ball2.getY() + 4 * dir.getY());
-                gameView.drawFrame(ball1, ball2);
+                // gameView.drawFrame(ball1, ball2);
+                gameView.drawGrid(gameController.getBoardGrid());
                 if (Math.abs(ball1.getX() - initialX) >= 40 || Math.abs(ball1.getY() - initialY) >= 40) {
                     this.stop();
                     keyLock.unlock();
