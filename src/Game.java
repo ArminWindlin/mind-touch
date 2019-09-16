@@ -4,8 +4,6 @@ import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.Objects;
@@ -15,6 +13,7 @@ class Game {
     private Main main;
     private Scene gameScene;
     private Canvas canvas;
+    private GameView gameView;
 
     Scene getGameScene() {
         return gameScene;
@@ -31,6 +30,8 @@ class Game {
 
         canvas = new Canvas(main.WINDOW_WIDTH, main.WINDOW_HEIGHT);
         root.getChildren().add(canvas);
+
+        gameView = new GameView(main, canvas);
 
         GameObject ball1 = new GameObject(40, 8 * 40);
         GameObject ball2 = new GameObject(28 * 40, 8 * 40);
@@ -51,31 +52,7 @@ class Game {
             }
         });
 
-        drawFrame(ball1, ball2);
-    }
-
-
-    private void drawFrame(GameObject ball1, GameObject ball2) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        // clear the canvas
-        gc.clearRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
-        gc.setFill(Color.BLUE);
-        gc.fillOval(ball1.getX(), ball1.getY(), 40, 40);
-        gc.setFill(Color.GREEN);
-        gc.fillOval(ball2.getX(), ball1.getY(), 40, 40);
-
-        // draw grid
-        for (int i = 0; i < 17; i++) {
-            for (int j = 0; j < 30; j++) {
-                gc.setStroke(Color.BLACK);
-                gc.strokeRect(j * 40, i * 40, 40, 40);
-
-            }
-
-        }
+        gameView.drawFrame(ball1, ball2);
     }
 
     private void animation3(GameObject ball1, GameObject ball2, String code, KeyLock keyLock) {
@@ -106,7 +83,7 @@ class Game {
                 ball1.setY(ball1.getY() + 4 * dir.getY());
                 ball2.setX(ball2.getX() + 4 * dir.getX() * -1);
                 ball2.setY(ball2.getY() + 4 * dir.getY());
-                drawFrame(ball1, ball2);
+                gameView.drawFrame(ball1, ball2);
                 if (Math.abs(ball1.getX() - initialX) >= 40 || Math.abs(ball1.getY() - initialY) >= 40) {
                     this.stop();
                     keyLock.unlock();
@@ -120,44 +97,5 @@ class Game {
 
     }
 
-    private void drawAnimation(GraphicsContext gc, GameObject ball1, int xOld, int yOld) {
-        int xNew = ball1.getX();
-        int yNew = ball1.getY();
-        int xDif = xNew - xOld;
-        int yDif = yOld - yNew;
 
-        int dif = Math.abs(xNew) > Math.abs(yNew) ? xNew : yNew;
-
-        int xAnim = 0;
-        int yAnim = 0;
-        for (int i = 0; i < dif; i++) {
-            if (xDif > 0) {
-                xAnim++;
-            } else {
-                xAnim--;
-            }
-            if (yDif > 0) {
-                yAnim++;
-            } else {
-                yAnim--;
-            }
-            gc.setFill(Color.WHITE);
-            gc.fillRect(0, 0, 1200, 720);
-            gc.setFill(Color.BLUE);
-            gc.fillOval(xOld + xAnim, yOld + yAnim, 30, 30);
-        }
-    }
-
-    private void animation2(GraphicsContext gc, GameObject ball1) {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            ball1.setX(ball1.getX() + 1);
-            gc.setFill(Color.WHITE);
-            gc.fillRect(0, 0, 1200, 720);
-            gc.setFill(Color.BLUE);
-            gc.fillOval(ball1.getX(), ball1.getY(), 30, 30);
-
-        }));
-        timeline.setCycleCount(1);
-        timeline.play();
-    }
 }
