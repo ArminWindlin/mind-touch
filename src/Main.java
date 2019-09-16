@@ -47,6 +47,9 @@ public class Main extends Application {
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
         gc.setFill(Color.BLACK);
         gc.fillText("PLAY", 500, 225);
+        gc.strokeRect(300, 350, 600, 100);
+        gc.setFill(Color.BLACK);
+        gc.fillText("LEVELS", 460, 425);
     }
 
     private void closeProgram() {
