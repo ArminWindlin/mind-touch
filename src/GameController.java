@@ -14,19 +14,21 @@ class GameController {
 
         // get position of ball 1
         ball1 = gameBoard.getBall1();
-        System.out.println(ball1.x);
     }
 
     void move(String keyCode) {
         switch (keyCode) {
             case "LEFT":
+                moveLeft();
                 break;
             case "RIGHT":
                 moveRight();
                 break;
             case "UP":
+                moveUp();
                 break;
             case "DOWN":
+                moveDown();
                 break;
             default:
         }
@@ -38,6 +40,30 @@ class GameController {
         grid[y][x] = 0;
         grid[y][x + 1] = 1;
         ball1.x++;
+    }
+
+    void moveLeft() {
+        int x = ball1.x;
+        int y = ball1.y;
+        grid[y][x] = 0;
+        grid[y][x - 1] = 1;
+        ball1.x--;
+    }
+
+    void moveUp() {
+        int x = ball1.x;
+        int y = ball1.y;
+        grid[y][x] = 0;
+        grid[y - 1][x] = 1;
+        ball1.y--;
+    }
+
+    void moveDown() {
+        int x = ball1.x;
+        int y = ball1.y;
+        grid[y][x] = 0;
+        grid[y + 1][x] = 1;
+        ball1.y++;
     }
 
     int[][] getGrid() {

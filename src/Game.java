@@ -45,12 +45,12 @@ class Game {
         KeyLock keyLock = new KeyLock();
 
         gameScene.setOnKeyPressed(e -> {
-            if (keyLock.isLocked()) {
-                return;
-            }
+            //if (keyLock.isLocked()) {
+            //    return;
+            //}
             keyLock.lock();
             String code = e.getCode().toString();
-            animation3(ball1, ball2, code, keyLock);
+            //animation3(ball1, ball2, code, keyLock);
             System.out.println(code);
             if (Objects.equals(code, "ESCAPE")) {
                 main.goToMenu();
