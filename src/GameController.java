@@ -1,31 +1,50 @@
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.util.Duration;
-
-import java.util.Objects;
-
 class GameController {
 
-    private int[][] boardGrid;
+    private GameBoard gameBoard;
+    private int[][] grid;
+    private GameObject ball1;
 
     GameController() {
         initialize();
     }
 
     private void initialize() {
-        boardGrid = LevelData.getLevel(1);
+        gameBoard = LevelData.getLevel(1);
+        grid = gameBoard.getGrid();
+
+        // get position of ball 1
+        ball1 = gameBoard.getBall1();
+        System.out.println(ball1.x);
     }
 
-
-    public int[][] getBoardGrid() {
-        return boardGrid;
+    void move(String keyCode) {
+        switch (keyCode) {
+            case "LEFT":
+                break;
+            case "RIGHT":
+                moveRight();
+                break;
+            case "UP":
+                break;
+            case "DOWN":
+                break;
+            default:
+        }
     }
 
-    public void setBoardGrid(int[][] boardGrid) {
-        this.boardGrid = boardGrid;
+    void moveRight() {
+        int x = ball1.x;
+        int y = ball1.y;
+        grid[y][x] = 0;
+        grid[y][x + 1] = 1;
+        ball1.x++;
+    }
+
+    int[][] getGrid() {
+        return grid;
+    }
+
+    public void setGrid(int[][] grid) {
+        this.grid = grid;
     }
 }

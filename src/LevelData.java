@@ -1,12 +1,11 @@
-public class LevelData {
-    public static int[][] getLevel(int level) {
+class LevelData {
+    static GameBoard getLevel(int level) {
         switch (level) {
             case 1:
-                return level1;
+                return new GameBoard(level1);
             default:
-                return new int[][]{};
+                return new GameBoard(new int[][]{});
         }
-
     }
 
     private static int[][] level1 = new int[][]{

@@ -55,9 +55,11 @@ class Game {
             if (Objects.equals(code, "ESCAPE")) {
                 main.goToMenu();
             }
+            gameController.move(code);
+            gameView.drawGrid(gameController.getGrid());
         });
 
-        gameView.drawGrid(gameController.getBoardGrid());
+        gameView.drawGrid(gameController.getGrid());
     }
 
     private void animation3(GameObject ball1, GameObject ball2, String code, KeyLock keyLock) {
@@ -80,17 +82,17 @@ class Game {
             default:
         }
 
-        int initialX = ball1.getX();
-        int initialY = ball1.getY();
+        int initialX = ball1.x;
+        int initialY = ball1.y;
         AnimationTimer animationTimer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                ball1.setX(ball1.getX() + 4 * dir.getX());
-                ball1.setY(ball1.getY() + 4 * dir.getY());
-                ball2.setX(ball2.getX() + 4 * dir.getX() * -1);
-                ball2.setY(ball2.getY() + 4 * dir.getY());
+                ball1.x = ball1.x + 4 * dir.getX();
+                ball1.y = ball1.y + 4 * dir.getY();
+                ball2.x = ball2.x + 4 * dir.getX() * -1;
+                ball2.y = ball2.y + 4 * dir.getY();
                 // gameView.drawFrame(ball1, ball2);
-                gameView.drawGrid(gameController.getBoardGrid());
-                if (Math.abs(ball1.getX() - initialX) >= 40 || Math.abs(ball1.getY() - initialY) >= 40) {
+                gameView.drawGrid(gameController.getGrid());
+                if (Math.abs(ball1.x - initialX) >= 40 || Math.abs(ball1.y - initialY) >= 40) {
                     this.stop();
                     keyLock.unlock();
                 }

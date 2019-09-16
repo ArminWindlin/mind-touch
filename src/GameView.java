@@ -19,9 +19,9 @@ class GameView {
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
         gc.setFill(Color.BLUE);
-        gc.fillOval(ball1.getX(), ball1.getY(), 40, 40);
+        gc.fillOval(ball1.x, ball1.y, 40, 40);
         gc.setFill(Color.GREEN);
-        gc.fillOval(ball2.getX(), ball1.getY(), 40, 40);
+        gc.fillOval(ball2.x, ball1.y, 40, 40);
 
         // draw grid
         for (int i = 0; i < 17; i++) {
