@@ -15,6 +15,7 @@ class Game {
     private Canvas canvas;
     private GameView gameView;
     private GameController gameController;
+    KeyLock keyLock;
 
     Scene getGameScene() {
         return gameScene;
@@ -32,23 +33,25 @@ class Game {
         canvas = new Canvas(main.WINDOW_WIDTH, main.WINDOW_HEIGHT);
         root.getChildren().add(canvas);
 
-        // View
-        gameView = new GameView(main, canvas);
+        // view
+        gameView = new GameView(main, this, canvas);
 
-        // Controller
+        // controller
         gameController = new GameController();
+
+        // draw initial grid
+        gameView.drawGrid(gameController.getGrid());
 
         GameObject ball1 = new GameObject(40, 8 * 40);
         GameObject ball2 = new GameObject(28 * 40, 8 * 40);
 
         // to make sure only one key action runs at a time
-        KeyLock keyLock = new KeyLock();
+        keyLock = new KeyLock();
 
         gameScene.setOnKeyPressed(e -> {
-            //if (keyLock.isLocked()) {
-            //    return;
-            //}
-            keyLock.lock();
+            if (keyLock.isLocked()) {
+                return;
+            }
             String code = e.getCode().toString();
             //animation3(ball1, ball2, code, keyLock);
             System.out.println(code);
@@ -56,10 +59,9 @@ class Game {
                 main.goToMenu();
             }
             gameController.move(code);
-            gameView.drawGrid(gameController.getGrid());
+            gameView.drawGridWithAnimation(gameController.getGrid());
         });
 
-        gameView.drawGrid(gameController.getGrid());
     }
 
     private void animation3(GameObject ball1, GameObject ball2, String code, KeyLock keyLock) {
