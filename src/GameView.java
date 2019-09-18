@@ -106,6 +106,7 @@ class GameView {
                 }
             }
         }
+        animations.forEach(a -> System.out.println(a.type));
         return animations;
     }
 
@@ -118,7 +119,8 @@ class GameView {
                     gc.fillRect(a.x1 * 40, a.y1 * 40, 40, 40);
                     gc.fillRect(a.x2 * 40, a.y2 * 40, 40, 40);
                     a.distance += 4;
-                    gc.setFill(Color.BLUE);
+                    if (a.type == 1) gc.setFill(Color.BLUE);
+                    if (a.type == 2) gc.setFill(Color.GREEN);
                     gc.fillOval(a.x1 * 40 + (a.distance * a.directionX),
                             a.y1 * 40 + (a.distance * a.directionY), 40, 40);
                     if (a.distance >= 40) {

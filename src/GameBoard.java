@@ -15,6 +15,15 @@ public class GameBoard {
         return new GameObject(1, 1);
     }
 
+    GameObject getBall2() {
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid[y].length; x++) {
+                if (grid[y][x] == 2) return new GameObject(x, y);
+            }
+        }
+        return new GameObject(1, 1);
+    }
+
 
     int[][] getGrid() {
         return grid;
