@@ -91,7 +91,6 @@ class GameView {
         for (int y = 0; y < grid.length; y++) {
             for (int x = 0; x < grid[y].length; x++) {
                 if (previousGrid[y][x] != grid[y][x] && previousGrid[y][x] != 0) {
-                    System.out.println(y + " " + x);
                     if (y - 1 >= 0 && grid[y - 1][x] == previousGrid[y][x]) {
                         animations.add(new ObjectAnimationInformation(x, y, x, y - 1, previousGrid[y][x]));
                     }
@@ -107,12 +106,11 @@ class GameView {
                 }
             }
         }
-        System.out.println(animations.size());
         return animations;
     }
 
     private void drawGridAnimations(ArrayList<ObjectAnimationInformation> animations) {
-        game.keyLock.lock();
+        if (!animations.isEmpty()) game.keyLock.lock();
         AnimationTimer animationTimer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 animations.forEach(a -> {

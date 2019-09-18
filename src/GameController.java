@@ -32,11 +32,13 @@ class GameController {
                 break;
             default:
         }
+        System.out.println("hey");
     }
 
     void moveRight() {
         int x = ball1.x;
         int y = ball1.y;
+        if (x + 1 >= grid[y].length) return;
         grid[y][x] = 0;
         grid[y][x + 1] = 1;
         ball1.x++;
@@ -45,6 +47,7 @@ class GameController {
     void moveLeft() {
         int x = ball1.x;
         int y = ball1.y;
+        if (x - 1 < 0) return;
         grid[y][x] = 0;
         grid[y][x - 1] = 1;
         ball1.x--;
@@ -53,6 +56,7 @@ class GameController {
     void moveUp() {
         int x = ball1.x;
         int y = ball1.y;
+        if (y - 1 < 0) return;
         grid[y][x] = 0;
         grid[y - 1][x] = 1;
         ball1.y--;
@@ -61,6 +65,7 @@ class GameController {
     void moveDown() {
         int x = ball1.x;
         int y = ball1.y;
+        if (y + 1 >= grid.length) return;
         grid[y][x] = 0;
         grid[y + 1][x] = 1;
         ball1.y++;

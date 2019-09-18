@@ -1,10 +1,6 @@
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.util.Duration;
 
 import java.util.Objects;
 
@@ -42,70 +38,23 @@ class Game {
         // draw initial grid
         gameView.drawGrid(gameController.getGrid());
 
-        GameObject ball1 = new GameObject(40, 8 * 40);
-        GameObject ball2 = new GameObject(28 * 40, 8 * 40);
-
         // to make sure only one key action runs at a time
         keyLock = new KeyLock();
 
         gameScene.setOnKeyPressed(e -> {
-            if (keyLock.isLocked()) {
-                return;
-            }
             String code = e.getCode().toString();
-            //animation3(ball1, ball2, code, keyLock);
-            System.out.println(code);
             if (Objects.equals(code, "ESCAPE")) {
                 main.goToMenu();
             }
+            // Prevents start of new move before old move is done
+            if (keyLock.isLocked()) {
+                return;
+            }
+            gameView.drawGrid(gameController.getGrid());
             gameController.move(code);
             gameView.drawGridWithAnimation(gameController.getGrid());
         });
 
     }
-
-    private void animation3(GameObject ball1, GameObject ball2, String code, KeyLock keyLock) {
-
-        DirectionIndicator dir = new DirectionIndicator(0, 0);
-
-        switch (code) {
-            case "LEFT":
-                dir.setX(-1);
-                break;
-            case "RIGHT":
-                dir.setX(1);
-                break;
-            case "UP":
-                dir.setY(-1);
-                break;
-            case "DOWN":
-                dir.setY(1);
-                break;
-            default:
-        }
-
-        int initialX = ball1.x;
-        int initialY = ball1.y;
-        AnimationTimer animationTimer = new AnimationTimer() {
-            public void handle(long currentNanoTime) {
-                ball1.x = ball1.x + 4 * dir.getX();
-                ball1.y = ball1.y + 4 * dir.getY();
-                ball2.x = ball2.x + 4 * dir.getX() * -1;
-                ball2.y = ball2.y + 4 * dir.getY();
-                // gameView.drawFrame(ball1, ball2);
-                gameView.drawGrid(gameController.getGrid());
-                if (Math.abs(ball1.x - initialX) >= 40 || Math.abs(ball1.y - initialY) >= 40) {
-                    this.stop();
-                    keyLock.unlock();
-                }
-            }
-        };
-        animationTimer.start();
-        new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            //animationTimer.stop();
-        })).play();
-
-    }
-
 
 }
