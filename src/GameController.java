@@ -2,20 +2,16 @@ class GameController {
 
     private GameBoard gameBoard;
     private int[][] grid;
-    private GameObject ball1;
-    private GameObject ball2;
+    private GameObject octagon1;
+    private GameObject octagon2;
+    private boolean hasBeenWon;
 
     GameController() {
         initialize();
     }
 
     private void initialize() {
-        gameBoard = LevelData.getLevel(1);
-        grid = gameBoard.getGrid();
-
-        // get position of ball 1 and 2
-        ball1 = gameBoard.getBall1();
-        ball2 = gameBoard.getBall2();
+        setLevel();
     }
 
     void move(String keyCode) {
@@ -34,82 +30,97 @@ class GameController {
                 break;
             default:
         }
+        if (levelHasBeenWon()) hasBeenWon = true;
+    }
+
+    private boolean levelHasBeenWon() {
+        return Math.abs(octagon1.x - octagon2.x) == 1 || Math.abs(octagon1.y - octagon2.y) == 1;
     }
 
     void moveRight() {
         // move ball 1
-        int x = ball1.x;
-        int y = ball1.y;
+        int x = octagon1.x;
+        int y = octagon1.y;
         if (x + 1 < grid[y].length) {
             grid[y][x] = 0;
             grid[y][x + 1] = 1;
-            ball1.x++;
+            octagon1.x++;
         }
         // move ball 2
-        x = ball2.x;
-        y = ball2.y;
+        x = octagon2.x;
+        y = octagon2.y;
         if (x - 1 >= 0) {
             grid[y][x] = 0;
             grid[y][x - 1] = 2;
-            ball2.x--;
+            octagon2.x--;
         }
     }
 
     void moveLeft() {
         // move ball 1
-        int x = ball1.x;
-        int y = ball1.y;
+        int x = octagon1.x;
+        int y = octagon1.y;
         if (x - 1 >= 0) {
             grid[y][x] = 0;
             grid[y][x - 1] = 1;
-            ball1.x--;
+            octagon1.x--;
         }
         // move ball 2
-        x = ball2.x;
-        y = ball2.y;
+        x = octagon2.x;
+        y = octagon2.y;
         if (x + 1 < grid[y].length) {
             grid[y][x] = 0;
             grid[y][x + 1] = 2;
-            ball2.x++;
+            octagon2.x++;
         }
     }
 
     void moveUp() {
         // move ball 1
-        int x = ball1.x;
-        int y = ball1.y;
+        int x = octagon1.x;
+        int y = octagon1.y;
         if (y - 1 >= 0) {
             grid[y][x] = 0;
             grid[y - 1][x] = 1;
-            ball1.y--;
+            octagon1.y--;
         }
         // move ball 2
-        x = ball2.x;
-        y = ball2.y;
+        x = octagon2.x;
+        y = octagon2.y;
         if (y - 1 >= 0) {
             grid[y][x] = 0;
             grid[y - 1][x] = 2;
-            ball2.y--;
+            octagon2.y--;
         }
     }
 
     void moveDown() {
         // move ball 1
-        int x = ball1.x;
-        int y = ball1.y;
+        int x = octagon1.x;
+        int y = octagon1.y;
         if (y + 1 < grid.length) {
             grid[y][x] = 0;
             grid[y + 1][x] = 1;
-            ball1.y++;
+            octagon1.y++;
         }
         // move ball 2
-        x = ball2.x;
-        y = ball2.y;
+        x = octagon2.x;
+        y = octagon2.y;
         if (y + 1 < grid.length) {
             grid[y][x] = 0;
             grid[y + 1][x] = 2;
-            ball2.y++;
+            octagon2.y++;
         }
+    }
+
+    void setLevel() {
+        gameBoard = LevelData.getLevel(1);
+        grid = gameBoard.getGrid();
+        hasBeenWon = false;
+
+        // get position of octagon 1 and 2
+        octagon1 = gameBoard.getObject1();
+        octagon2 = gameBoard.getObject2();
     }
 
     int[][] getGrid() {
@@ -118,5 +129,9 @@ class GameController {
 
     public void setGrid(int[][] grid) {
         this.grid = grid;
+    }
+
+    boolean hasBeenWon() {
+        return hasBeenWon;
     }
 }

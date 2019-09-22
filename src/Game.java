@@ -12,6 +12,7 @@ class Game {
     private GameView gameView;
     private GameController gameController;
     KeyLock keyLock;
+    KeyLock winLock;
 
     Scene getGameScene() {
         return gameScene;
@@ -40,6 +41,7 @@ class Game {
 
         // to make sure only one key action runs at a time
         keyLock = new KeyLock();
+        winLock = new KeyLock();
 
         gameScene.setOnKeyPressed(e -> {
             String code = e.getCode().toString();
@@ -47,14 +49,31 @@ class Game {
                 main.goToMenu();
             }
             // Prevents start of new move before old move is done
-            if (keyLock.isLocked()) {
+            if (keyLock.isLocked() || winLock.isLocked()) {
                 return;
             }
             gameView.drawGrid(gameController.getGrid());
             gameController.move(code);
             gameView.drawGridWithAnimation(gameController.getGrid());
+
+            if (gameController.hasBeenWon()) {
+                winLock.lock();
+                gameView.drawWin();
+            }
         });
 
+        gameScene.setOnMouseClicked(e -> {
+            if (gameController.hasBeenWon()) {
+                nextLevel();
+            }
+        });
+
+    }
+
+    private void nextLevel(){
+        gameController.setLevel();
+        gameView.drawGrid(gameController.getGrid());
+        winLock.unlock();
     }
 
 }

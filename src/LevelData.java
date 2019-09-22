@@ -1,11 +1,18 @@
 class LevelData {
     static GameBoard getLevel(int level) {
+        int[][] grid;
+        int[][] gridCopy = new int[17][30];
         switch (level) {
             case 1:
-                return new GameBoard(level1);
+                grid = level1;
+                break;
             default:
-                return new GameBoard(new int[][]{});
+                grid = new int[][]{};
         }
+        for (int i = 0; i < grid.length; i++) {
+            System.arraycopy(grid[i], 0, gridCopy[i], 0, grid[i].length);
+        }
+        return new GameBoard(gridCopy);
     }
 
     private static int[][] level1 = new int[][]{

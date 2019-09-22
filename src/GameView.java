@@ -2,6 +2,8 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.ArrayList;
 
@@ -53,8 +55,9 @@ class GameView {
             for (int j = 0; j < grid[i].length; j++) {
                 switch (grid[i][j]) {
                     case 0:
-                        gc.setStroke(Color.BLACK);
-                        gc.strokeRect(j * 40, i * 40, 40, 40);
+                        // activate for developer mode
+                        // gc.setStroke(Color.BLACK);
+                        // gc.strokeRect(j * 40, i * 40, 40, 40);
                         break;
                     case 1:
                         gc.setFill(Color.BLUE);
@@ -67,8 +70,6 @@ class GameView {
                     default:
                         break;
                 }
-                gc.setStroke(Color.BLACK);
-                gc.strokeRect(j * 40, i * 40, 40, 40);
             }
         }
         saveAsPreviousGrid(grid);
@@ -106,7 +107,6 @@ class GameView {
                 }
             }
         }
-        animations.forEach(a -> System.out.println(a.type));
         return animations;
     }
 
@@ -131,6 +131,16 @@ class GameView {
             }
         };
         animationTimer.start();
+    }
+
+    void drawWin() {
+        gc.setGlobalAlpha(0.8);
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
+        gc.setGlobalAlpha(1);
+        gc.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
+        gc.setFill(Color.BLACK);
+        gc.fillText("YOU WIN!", 440, 200);
     }
 
 }

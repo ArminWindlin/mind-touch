@@ -6,7 +6,7 @@ public class GameBoard {
         this.grid = grid;
     }
 
-    GameObject getBall1() {
+    GameObject getObject1() {
         for (int y = 0; y < grid.length; y++) {
             for (int x = 0; x < grid[y].length; x++) {
                 if (grid[y][x] == 1) return new GameObject(x, y);
@@ -15,7 +15,7 @@ public class GameBoard {
         return new GameObject(1, 1);
     }
 
-    GameObject getBall2() {
+    GameObject getObject2() {
         for (int y = 0; y < grid.length; y++) {
             for (int x = 0; x < grid[y].length; x++) {
                 if (grid[y][x] == 2) return new GameObject(x, y);
