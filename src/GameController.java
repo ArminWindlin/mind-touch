@@ -5,12 +5,14 @@ class GameController {
     private GameObject octagon1;
     private GameObject octagon2;
     private boolean hasBeenWon;
+    private int currentLevel;
 
     GameController() {
         initialize();
     }
 
     private void initialize() {
+        currentLevel = 1;
         setLevel();
     }
 
@@ -114,13 +116,18 @@ class GameController {
     }
 
     void setLevel() {
-        gameBoard = LevelData.getLevel(1);
+        gameBoard = LevelData.getLevel(currentLevel);
         grid = gameBoard.getGrid();
         hasBeenWon = false;
 
         // get position of octagon 1 and 2
         octagon1 = gameBoard.getObject1();
         octagon2 = gameBoard.getObject2();
+
+        currentLevel++;
+
+        // level restriction
+        if (currentLevel > 2) currentLevel = 1;
     }
 
     int[][] getGrid() {

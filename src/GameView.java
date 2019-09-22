@@ -23,27 +23,6 @@ class GameView {
         previousGrid = new int[17][30];
     }
 
-    void drawFrame(GameObject ball1, GameObject ball2) {
-        // clear the canvas
-        gc.clearRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
-        gc.setFill(Color.BLUE);
-        gc.fillOval(ball1.x, ball1.y, 40, 40);
-        gc.setFill(Color.GREEN);
-        gc.fillOval(ball2.x, ball1.y, 40, 40);
-
-        // draw grid
-        for (int i = 0; i < 17; i++) {
-            for (int j = 0; j < 30; j++) {
-                gc.setStroke(Color.BLACK);
-                gc.strokeRect(j * 40, i * 40, 40, 40);
-
-            }
-
-        }
-    }
-
     void drawGrid(int[][] grid) {
         // clear the canvas adn set white background
         gc.clearRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
@@ -60,12 +39,16 @@ class GameView {
                         // gc.strokeRect(j * 40, i * 40, 40, 40);
                         break;
                     case 1:
-                        gc.setFill(Color.BLUE);
+                        gc.setFill(Color.GREEN);
                         gc.fillOval(j * 40, i * 40, 40, 40);
                         break;
                     case 2:
-                        gc.setFill(Color.GREEN);
+                        gc.setFill(Color.BLUE);
                         gc.fillOval(j * 40, i * 40, 40, 40);
+                        break;
+                    case 6:
+                        gc.setFill(Color.BLACK);
+                        gc.fillRect(j * 40, i * 40, 40, 40);
                         break;
                     default:
                         break;
@@ -119,8 +102,8 @@ class GameView {
                     gc.fillRect(a.x1 * 40, a.y1 * 40, 40, 40);
                     gc.fillRect(a.x2 * 40, a.y2 * 40, 40, 40);
                     a.distance += 4;
-                    if (a.type == 1) gc.setFill(Color.BLUE);
-                    if (a.type == 2) gc.setFill(Color.GREEN);
+                    if (a.type == 1) gc.setFill(Color.GREEN);
+                    if (a.type == 2) gc.setFill(Color.BLUE);
                     gc.fillOval(a.x1 * 40 + (a.distance * a.directionX),
                             a.y1 * 40 + (a.distance * a.directionY), 40, 40);
                     if (a.distance >= 40) {
