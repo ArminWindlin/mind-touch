@@ -36,14 +36,15 @@ class GameController {
     }
 
     private boolean levelHasBeenWon() {
-        return Math.abs(octagon1.x - octagon2.x) == 1 || Math.abs(octagon1.y - octagon2.y) == 1;
+        return (Math.abs(octagon1.x - octagon2.x) == 1 && octagon1.y == octagon2.y) ||
+                (Math.abs(octagon1.y - octagon2.y) == 1 && octagon1.x == octagon2.x);
     }
 
     void moveRight() {
         // move ball 1
         int x = octagon1.x;
         int y = octagon1.y;
-        if (x + 1 < grid[y].length) {
+        if (x + 1 < grid[y].length && grid[y][x + 1] == 0) {
             grid[y][x] = 0;
             grid[y][x + 1] = 1;
             octagon1.x++;
@@ -51,7 +52,7 @@ class GameController {
         // move ball 2
         x = octagon2.x;
         y = octagon2.y;
-        if (x - 1 >= 0) {
+        if (x - 1 >= 0 && grid[y][x - 1] == 0) {
             grid[y][x] = 0;
             grid[y][x - 1] = 2;
             octagon2.x--;
@@ -62,7 +63,7 @@ class GameController {
         // move ball 1
         int x = octagon1.x;
         int y = octagon1.y;
-        if (x - 1 >= 0) {
+        if (x - 1 >= 0 && grid[y][x - 1] == 0) {
             grid[y][x] = 0;
             grid[y][x - 1] = 1;
             octagon1.x--;
@@ -70,7 +71,7 @@ class GameController {
         // move ball 2
         x = octagon2.x;
         y = octagon2.y;
-        if (x + 1 < grid[y].length) {
+        if (x + 1 < grid[y].length && grid[y][x + 1] == 0) {
             grid[y][x] = 0;
             grid[y][x + 1] = 2;
             octagon2.x++;
@@ -81,7 +82,7 @@ class GameController {
         // move ball 1
         int x = octagon1.x;
         int y = octagon1.y;
-        if (y - 1 >= 0) {
+        if (y - 1 >= 0 && grid[y - 1][x] == 0) {
             grid[y][x] = 0;
             grid[y - 1][x] = 1;
             octagon1.y--;
@@ -89,7 +90,7 @@ class GameController {
         // move ball 2
         x = octagon2.x;
         y = octagon2.y;
-        if (y - 1 >= 0) {
+        if (y - 1 >= 0 && grid[y - 1][x] == 0) {
             grid[y][x] = 0;
             grid[y - 1][x] = 2;
             octagon2.y--;
@@ -100,7 +101,7 @@ class GameController {
         // move ball 1
         int x = octagon1.x;
         int y = octagon1.y;
-        if (y + 1 < grid.length) {
+        if (y + 1 < grid.length && grid[y + 1][x] == 0) {
             grid[y][x] = 0;
             grid[y + 1][x] = 1;
             octagon1.y++;
@@ -108,7 +109,7 @@ class GameController {
         // move ball 2
         x = octagon2.x;
         y = octagon2.y;
-        if (y + 1 < grid.length) {
+        if (y + 1 < grid.length && grid[y + 1][x] == 0) {
             grid[y][x] = 0;
             grid[y + 1][x] = 2;
             octagon2.y++;
