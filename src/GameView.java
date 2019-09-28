@@ -1,10 +1,13 @@
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 class GameView {
@@ -13,6 +16,8 @@ class GameView {
     private Game game;
     private GraphicsContext gc;
     private int[][] previousGrid;
+    private Image octagon1;
+    private Image octagon2;
 
     GameView(Main main, Game game, Canvas canvas) {
         this.main = main;
@@ -21,6 +26,14 @@ class GameView {
 
         gc = canvas.getGraphicsContext2D();
         previousGrid = new int[17][30];
+
+        // load images
+        try {
+            octagon1 = new Image(new FileInputStream("./src/assets/octagon_deeppurple_eye1.png"));
+            octagon2 = new Image(new FileInputStream("./src/assets/octagon_lightgreen_eye1.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     void drawGrid(int[][] grid) {
@@ -39,12 +52,10 @@ class GameView {
                         // gc.strokeRect(j * 40, i * 40, 40, 40);
                         break;
                     case 1:
-                        gc.setFill(Color.GREEN);
-                        gc.fillOval(j * 40, i * 40, 40, 40);
+                        gc.drawImage(octagon1, j * 40, i * 40);
                         break;
                     case 2:
-                        gc.setFill(Color.BLUE);
-                        gc.fillOval(j * 40, i * 40, 40, 40);
+                        gc.drawImage(octagon2, j * 40, i * 40);
                         break;
                     case 6:
                         gc.setFill(Color.BLACK);
@@ -102,10 +113,11 @@ class GameView {
                     gc.fillRect(a.x1 * 40, a.y1 * 40, 40, 40);
                     gc.fillRect(a.x2 * 40, a.y2 * 40, 40, 40);
                     a.distance += 4;
-                    if (a.type == 1) gc.setFill(Color.GREEN);
-                    if (a.type == 2) gc.setFill(Color.BLUE);
-                    gc.fillOval(a.x1 * 40 + (a.distance * a.directionX),
-                            a.y1 * 40 + (a.distance * a.directionY), 40, 40);
+                    Image imageToBeAnimated = octagon1;
+                    if (a.type == 1) imageToBeAnimated = octagon1;
+                    if (a.type == 2) imageToBeAnimated = octagon2;
+                    gc.drawImage(imageToBeAnimated, a.x1 * 40 + (a.distance * a.directionX),
+                            a.y1 * 40 + (a.distance * a.directionY));
                     if (a.distance >= 40) {
                         this.stop();
                         game.keyLock.unlock();

@@ -8,6 +8,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class Main extends Application {
 
     final int WINDOW_WIDTH = 1200;
@@ -26,6 +28,13 @@ public class Main extends Application {
         scene1 = new Scene(root);
 
         scene1.setOnMouseClicked(e -> window.setScene(new Game(this).getGameScene()));
+
+        scene1.setOnKeyPressed(e -> {
+            String code = e.getCode().toString();
+            if (Objects.equals(code, "SPACE") || Objects.equals(code, "ENTER")) {
+                window.setScene(new Game(this).getGameScene());
+            }
+        });
 
         window.setTitle("MindTouch");
         window.setOnCloseRequest(e -> closeProgram());

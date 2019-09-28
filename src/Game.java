@@ -2,6 +2,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 
+import java.io.FileNotFoundException;
 import java.util.Objects;
 
 class Game {
@@ -47,7 +48,10 @@ class Game {
             String code = e.getCode().toString();
             if (Objects.equals(code, "ESCAPE")) {
                 main.goToMenu();
+            } else if (Objects.equals(code, "SPACE") || Objects.equals(code, "ENTER")) {
+                if (gameController.hasBeenWon()) nextLevel();
             }
+
             // Prevents start of new move before old move is done
             if (keyLock.isLocked() || winLock.isLocked()) {
                 return;
@@ -63,14 +67,13 @@ class Game {
         });
 
         gameScene.setOnMouseClicked(e -> {
-            if (gameController.hasBeenWon()) {
-                nextLevel();
-            }
+            if (gameController.hasBeenWon()) nextLevel();
+
         });
 
     }
 
-    private void nextLevel(){
+    private void nextLevel() {
         gameController.setLevel();
         gameView.drawGrid(gameController.getGrid());
         winLock.unlock();
