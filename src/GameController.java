@@ -128,7 +128,7 @@ class GameController {
         currentLevel++;
 
         // level restriction
-        if (currentLevel > 2) currentLevel = 1;
+        if (currentLevel > 3) currentLevel = 1;
     }
 
     int[][] getGrid() {

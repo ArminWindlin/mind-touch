@@ -61,6 +61,10 @@ class GameView {
                         gc.setFill(Color.BLACK);
                         gc.fillRect(j * 40, i * 40, 40, 40);
                         break;
+                    case 7:
+                        gc.setFill(Color.rgb(244, 67, 54));
+                        gc.fillRect(j * 40, i * 40, 40, 40);
+                        break;
                     default:
                         break;
                 }
