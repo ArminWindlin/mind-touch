@@ -37,8 +37,8 @@ class Game {
         // controller
         gameController = new GameController();
 
-        // draw initial grid
-        gameView.drawGrid(gameController.getGrid());
+        // draw level
+        gameView.drawLevel(gameController.getLevel());
 
         // to make sure only one key action runs at a time
         keyLock = new KeyLock();
@@ -56,7 +56,7 @@ class Game {
             if (keyLock.isLocked() || winLock.isLocked()) {
                 return;
             }
-            gameView.drawGrid(gameController.getGrid());
+            gameView.drawLevel(gameController.getLevel());
             gameController.move(code);
             gameView.drawGridWithAnimation(gameController.getGrid());
 

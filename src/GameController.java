@@ -1,5 +1,6 @@
 class GameController {
 
+    private Level level;
     private GameBoard gameBoard;
     private int[][] grid;
     private GameObject octagon1;
@@ -117,7 +118,8 @@ class GameController {
     }
 
     void setLevel() {
-        gameBoard = LevelData.getLevel(currentLevel);
+        level = LevelData.getLevel(currentLevel);
+        gameBoard = level.getGameBoard();
         grid = gameBoard.getGrid();
         hasBeenWon = false;
 
@@ -137,6 +139,10 @@ class GameController {
 
     public void setGrid(int[][] grid) {
         this.grid = grid;
+    }
+
+    Level getLevel() {
+        return level;
     }
 
     boolean hasBeenWon() {

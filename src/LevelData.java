@@ -1,5 +1,5 @@
 class LevelData {
-    static GameBoard getLevel(int level) {
+    static Level getLevel(int level) {
         int[][] grid;
         int[][] gridCopy = new int[17][30];
         switch (level) {
@@ -18,7 +18,7 @@ class LevelData {
         for (int i = 0; i < grid.length; i++) {
             System.arraycopy(grid[i], 0, gridCopy[i], 0, grid[i].length);
         }
-        return new GameBoard(gridCopy);
+        return new Level(new GameBoard(gridCopy), level, new ControlSettings());
     }
 
     private static int[][] level1 = new int[][]{

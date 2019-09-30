@@ -36,6 +36,11 @@ class GameView {
         }
     }
 
+    void drawLevel(Level level){
+        drawGrid(level.getGrid());
+        drawHUD(level.getLevelNumber());
+    }
+
     void drawGrid(int[][] grid) {
         // clear the canvas adn set white background
         gc.clearRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
@@ -140,6 +145,12 @@ class GameView {
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
         gc.setFill(Color.BLACK);
         gc.fillText("YOU WIN!", 440, 200);
+    }
+
+    void drawHUD(int level) {
+        gc.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+        gc.setFill(Color.BLACK);
+        gc.fillText("LEVEL " + level, 20, 35);
     }
 
 }
