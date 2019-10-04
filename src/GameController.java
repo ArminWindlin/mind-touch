@@ -18,21 +18,44 @@ class GameController {
     }
 
     void move(String keyCode) {
+        int moveObject2 = -1;
+
         switch (keyCode) {
             case "LEFT":
-                moveLeft();
+                moveLeft(octagon1);
+                moveObject2 = level.getControls().getLeft();
                 break;
             case "RIGHT":
-                moveRight();
+                moveRight(octagon1);
+                moveObject2 = level.getControls().getRight();
                 break;
             case "UP":
-                moveUp();
+                moveUp(octagon1);
+                moveObject2 = level.getControls().getUp();
                 break;
             case "DOWN":
-                moveDown();
+                moveDown(octagon1);
+                moveObject2 = level.getControls().getDown();
                 break;
             default:
         }
+
+        switch (moveObject2) {
+            case 0:
+                moveUp(octagon2);
+                break;
+            case 1:
+                moveRight(octagon2);
+                break;
+            case 2:
+                moveDown(octagon2);
+                break;
+            case 3:
+                moveLeft(octagon2);
+                break;
+            default:
+        }
+
         if (levelHasBeenWon()) hasBeenWon = true;
     }
 
@@ -41,79 +64,43 @@ class GameController {
                 (Math.abs(octagon1.y - octagon2.y) == 1 && octagon1.x == octagon2.x);
     }
 
-    void moveRight() {
-        // move ball 1
-        int x = octagon1.x;
-        int y = octagon1.y;
+    private void moveRight(GameObject gameObject) {
+        int x = gameObject.x;
+        int y = gameObject.y;
         if (x + 1 < grid[y].length && grid[y][x + 1] == 0) {
             grid[y][x] = 0;
-            grid[y][x + 1] = 1;
-            octagon1.x++;
+            grid[y][x + 1] = gameObject.type;
+            gameObject.x++;
         }
-        // move ball 2
-        x = octagon2.x;
-        y = octagon2.y;
+    }
+
+    private void moveLeft(GameObject gameObject) {
+        int x = gameObject.x;
+        int y = gameObject.y;
         if (x - 1 >= 0 && grid[y][x - 1] == 0) {
             grid[y][x] = 0;
-            grid[y][x - 1] = 2;
-            octagon2.x--;
+            grid[y][x - 1] = gameObject.type;
+            gameObject.x--;
         }
     }
 
-    void moveLeft() {
-        // move ball 1
-        int x = octagon1.x;
-        int y = octagon1.y;
-        if (x - 1 >= 0 && grid[y][x - 1] == 0) {
-            grid[y][x] = 0;
-            grid[y][x - 1] = 1;
-            octagon1.x--;
-        }
-        // move ball 2
-        x = octagon2.x;
-        y = octagon2.y;
-        if (x + 1 < grid[y].length && grid[y][x + 1] == 0) {
-            grid[y][x] = 0;
-            grid[y][x + 1] = 2;
-            octagon2.x++;
-        }
-    }
-
-    void moveUp() {
-        // move ball 1
-        int x = octagon1.x;
-        int y = octagon1.y;
+    private void moveUp(GameObject gameObject) {
+        int x = gameObject.x;
+        int y = gameObject.y;
         if (y - 1 >= 0 && grid[y - 1][x] == 0) {
             grid[y][x] = 0;
-            grid[y - 1][x] = 1;
-            octagon1.y--;
-        }
-        // move ball 2
-        x = octagon2.x;
-        y = octagon2.y;
-        if (y - 1 >= 0 && grid[y - 1][x] == 0) {
-            grid[y][x] = 0;
-            grid[y - 1][x] = 2;
-            octagon2.y--;
+            grid[y - 1][x] = gameObject.type;
+            gameObject.y--;
         }
     }
 
-    void moveDown() {
-        // move ball 1
-        int x = octagon1.x;
-        int y = octagon1.y;
+    private void moveDown(GameObject gameObject) {
+        int x = gameObject.x;
+        int y = gameObject.y;
         if (y + 1 < grid.length && grid[y + 1][x] == 0) {
             grid[y][x] = 0;
-            grid[y + 1][x] = 1;
-            octagon1.y++;
-        }
-        // move ball 2
-        x = octagon2.x;
-        y = octagon2.y;
-        if (y + 1 < grid.length && grid[y + 1][x] == 0) {
-            grid[y][x] = 0;
-            grid[y + 1][x] = 2;
-            octagon2.y++;
+            grid[y + 1][x] = gameObject.type;
+            gameObject.y++;
         }
     }
 

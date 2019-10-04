@@ -5,11 +5,27 @@ public class ControlSettings {
     private int left;
     private int right;
 
-    ControlSettings() {
-        this.up = 0;
-        this.right = 1;
-        this.down = 2;
-        this.left = 3;
+    ControlSettings(int[] controls) {
+        this.up = controls[0];
+        this.right = controls[1];
+        this.down = controls[2];
+        this.left = controls[3];
+    }
+
+    public int getUp() {
+        return up;
+    }
+
+    public int getDown() {
+        return down;
+    }
+
+    public int getLeft() {
+        return left;
+    }
+
+    public int getRight() {
+        return right;
     }
 
 }
