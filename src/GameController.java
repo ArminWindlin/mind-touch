@@ -1,3 +1,5 @@
+import java.io.*;
+
 class GameController {
 
     private Level level;
@@ -14,7 +16,8 @@ class GameController {
     }
 
     private void initialize() {
-        currentLevel = 1;
+        // load level based on progress of player
+        currentLevel = getProgress();
         setLevel();
     }
 
@@ -59,7 +62,10 @@ class GameController {
 
         if (levelHasBeenLost()) hasLost = true;
 
-        if (levelHasBeenWon()) hasWon = true;
+        if (levelHasBeenWon()) {
+            saveProgress(currentLevel + 1);
+            hasWon = true;
+        }
     }
 
     private boolean levelHasBeenWon() {
@@ -158,5 +164,37 @@ class GameController {
 
     boolean hasBeenLost() {
         return hasLost;
+    }
+
+    private int getProgress() {
+        String fileName = "progress.txt";
+        String line = "1";
+
+        try {
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            line = bufferedReader.readLine();
+            bufferedReader.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Unable to open file '" + fileName + "'");
+        } catch (IOException ex) {
+            System.out.println("Error reading file '" + fileName + "'");
+        }
+        return Integer.parseInt(line);
+    }
+
+    private void saveProgress(int level) {
+        String fileName = "progress.txt";
+        try {
+            FileWriter fileWriter = new FileWriter(fileName);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.write(String.valueOf(level));
+
+            bufferedWriter.close();
+
+        } catch (IOException ex) {
+            System.out.println("Error writing to file");
+        }
     }
 }
