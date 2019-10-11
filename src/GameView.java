@@ -155,14 +155,24 @@ class GameView {
         gc.fillText("YOU WIN!", 440, 200);
     }
 
+    void drawLoss() {
+        gc.setGlobalAlpha(0.8);
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, main.WINDOW_WIDTH, main.WINDOW_WIDTH);
+        gc.setGlobalAlpha(1);
+        gc.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
+        gc.setFill(Color.BLACK);
+        gc.fillText("OOPS, YOU LOST", 380, 200);
+    }
+
     void drawHUD(Level level) {
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         gc.setFill(Color.BLACK);
         gc.fillText("LEVEL " + level.getLevelNumber(), 20, 35);
-        gc.drawImage(getControlsImage(level.getControls().getUp()), main.WINDOW_WIDTH - 50, 7);
-        gc.drawImage(getControlsImage(level.getControls().getRight()), main.WINDOW_WIDTH - 25, 32);
-        gc.drawImage(getControlsImage(level.getControls().getDown()), main.WINDOW_WIDTH - 50, 32);
-        gc.drawImage(getControlsImage(level.getControls().getLeft()), main.WINDOW_WIDTH - 75, 32);
+        gc.drawImage(getControlsImage(level.getControls().getUp()), main.WINDOW_WIDTH - 55, 7);
+        gc.drawImage(getControlsImage(level.getControls().getRight()), main.WINDOW_WIDTH - 30, 32);
+        gc.drawImage(getControlsImage(level.getControls().getDown()), main.WINDOW_WIDTH - 55, 32);
+        gc.drawImage(getControlsImage(level.getControls().getLeft()), main.WINDOW_WIDTH - 80, 32);
     }
 
     Image getControlsImage(int controlIndicator) {

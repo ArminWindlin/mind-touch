@@ -68,11 +68,14 @@ class GameController {
     }
 
     private boolean levelHasBeenLost() {
-        boolean lost = false;
-        if (grid[octagon1.y][octagon1.x + 1] == 7)
-            lost = true;
-        return (Math.abs(octagon1.x - octagon2.x) == 1 && octagon1.y == octagon2.y) ||
-                (Math.abs(octagon1.y - octagon2.y) == 1 && octagon1.x == octagon2.x);
+        return (octagon1.x + 1 < grid[octagon1.y].length && grid[octagon1.y][octagon1.x + 1] == 7) ||
+                (octagon1.x - 1 >= 0 && grid[octagon1.y][octagon1.x - 1] == 7) ||
+                (octagon1.y + 1 < grid.length && grid[octagon1.y + 1][octagon1.x] == 7) ||
+                (octagon1.y - 1 >= 0 && grid[octagon1.y - 1][octagon1.x] == 7) ||
+                (octagon2.x + 1 < grid[octagon1.y].length && grid[octagon2.y][octagon2.x + 1] == 7) ||
+                (octagon2.x - 1 >= 0 && grid[octagon2.y][octagon2.x - 1] == 7) ||
+                (octagon2.y + 1 < grid.length && grid[octagon2.y + 1][octagon2.x] == 7) ||
+                (octagon2.y - 1 >= 0 && grid[octagon2.y - 1][octagon2.x] == 7);
     }
 
     private void moveRight(GameObject gameObject) {
@@ -119,16 +122,22 @@ class GameController {
         level = LevelData.getLevel(currentLevel);
         gameBoard = level.getGameBoard();
         grid = gameBoard.getGrid();
-        hasWon = false;
-
         // get position of octagon 1 and 2
         octagon1 = gameBoard.getObject1();
         octagon2 = gameBoard.getObject2();
+    }
 
+    void nextLevel() {
+        hasWon = false;
         currentLevel++;
-
         // level restriction
         if (currentLevel > 3) currentLevel = 1;
+        setLevel();
+    }
+
+    void restartLevel() {
+        hasLost = false;
+        setLevel();
     }
 
     int[][] getGrid() {

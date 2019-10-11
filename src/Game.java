@@ -50,6 +50,7 @@ class Game {
                 main.goToMenu();
             } else if (Objects.equals(code, "SPACE") || Objects.equals(code, "ENTER")) {
                 if (gameController.hasBeenWon()) nextLevel();
+                if (gameController.hasBeenLost()) restartLevel();
             }
 
             // Prevents start of new move before old move is done
@@ -64,16 +65,28 @@ class Game {
                 winLock.lock();
                 gameView.drawWin();
             }
+
+            if (gameController.hasBeenLost()) {
+                winLock.lock();
+                gameView.drawLoss();
+            }
         });
 
         gameScene.setOnMouseClicked(e -> {
             if (gameController.hasBeenWon()) nextLevel();
+            if (gameController.hasBeenLost()) restartLevel();
         });
 
     }
 
     private void nextLevel() {
-        gameController.setLevel();
+        gameController.nextLevel();
+        gameView.drawGrid(gameController.getGrid());
+        winLock.unlock();
+    }
+
+    private void restartLevel() {
+        gameController.restartLevel();
         gameView.drawGrid(gameController.getGrid());
         winLock.unlock();
     }
