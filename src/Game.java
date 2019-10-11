@@ -68,7 +68,6 @@ class Game {
 
         gameScene.setOnMouseClicked(e -> {
             if (gameController.hasBeenWon()) nextLevel();
-
         });
 
     }

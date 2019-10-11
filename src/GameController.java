@@ -5,7 +5,8 @@ class GameController {
     private int[][] grid;
     private GameObject octagon1;
     private GameObject octagon2;
-    private boolean hasBeenWon;
+    private boolean hasWon;
+    private boolean hasLost;
     private int currentLevel;
 
     GameController() {
@@ -56,10 +57,20 @@ class GameController {
             default:
         }
 
-        if (levelHasBeenWon()) hasBeenWon = true;
+        if (levelHasBeenLost()) hasLost = true;
+
+        if (levelHasBeenWon()) hasWon = true;
     }
 
     private boolean levelHasBeenWon() {
+        return (Math.abs(octagon1.x - octagon2.x) == 1 && octagon1.y == octagon2.y) ||
+                (Math.abs(octagon1.y - octagon2.y) == 1 && octagon1.x == octagon2.x);
+    }
+
+    private boolean levelHasBeenLost() {
+        boolean lost = false;
+        if (grid[octagon1.y][octagon1.x + 1] == 7)
+            lost = true;
         return (Math.abs(octagon1.x - octagon2.x) == 1 && octagon1.y == octagon2.y) ||
                 (Math.abs(octagon1.y - octagon2.y) == 1 && octagon1.x == octagon2.x);
     }
@@ -108,7 +119,7 @@ class GameController {
         level = LevelData.getLevel(currentLevel);
         gameBoard = level.getGameBoard();
         grid = gameBoard.getGrid();
-        hasBeenWon = false;
+        hasWon = false;
 
         // get position of octagon 1 and 2
         octagon1 = gameBoard.getObject1();
@@ -133,6 +144,10 @@ class GameController {
     }
 
     boolean hasBeenWon() {
-        return hasBeenWon;
+        return hasWon;
+    }
+
+    boolean hasBeenLost() {
+        return hasLost;
     }
 }
