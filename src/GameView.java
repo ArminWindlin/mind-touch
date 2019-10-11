@@ -18,6 +18,10 @@ class GameView {
     private int[][] previousGrid;
     private Image octagon1;
     private Image octagon2;
+    private Image arrowLeft;
+    private Image arrowRight;
+    private Image arrowDown;
+    private Image arrowUp;
 
     GameView(Main main, Game game, Canvas canvas) {
         this.main = main;
@@ -31,14 +35,18 @@ class GameView {
         try {
             octagon1 = new Image(new FileInputStream("./src/assets/octagon_deeppurple_eye1.png"));
             octagon2 = new Image(new FileInputStream("./src/assets/octagon_lightgreen_eye1.png"));
+            arrowLeft = new Image(new FileInputStream("./src/assets/arrowLeft.png"));
+            arrowRight = new Image(new FileInputStream("./src/assets/arrowRight.png"));
+            arrowDown = new Image(new FileInputStream("./src/assets/arrowDown.png"));
+            arrowUp = new Image(new FileInputStream("./src/assets/arrowUp.png"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    void drawLevel(Level level){
+    void drawLevel(Level level) {
         drawGrid(level.getGrid());
-        drawHUD(level.getLevelNumber());
+        drawHUD(level);
     }
 
     void drawGrid(int[][] grid) {
@@ -147,10 +155,29 @@ class GameView {
         gc.fillText("YOU WIN!", 440, 200);
     }
 
-    void drawHUD(int level) {
+    void drawHUD(Level level) {
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         gc.setFill(Color.BLACK);
-        gc.fillText("LEVEL " + level, 20, 35);
+        gc.fillText("LEVEL " + level.getLevelNumber(), 20, 35);
+        gc.drawImage(getControlsImage(level.getControls().getUp()), main.WINDOW_WIDTH - 50, 7);
+        gc.drawImage(getControlsImage(level.getControls().getRight()), main.WINDOW_WIDTH - 25, 32);
+        gc.drawImage(getControlsImage(level.getControls().getDown()), main.WINDOW_WIDTH - 50, 32);
+        gc.drawImage(getControlsImage(level.getControls().getLeft()), main.WINDOW_WIDTH - 75, 32);
+    }
+
+    Image getControlsImage(int controlIndicator) {
+        switch (controlIndicator) {
+            case 0:
+                return arrowUp;
+            case 1:
+                return arrowLeft;
+            case 2:
+                return arrowDown;
+            case 3:
+                return arrowRight;
+            default:
+                return arrowUp;
+        }
     }
 
 }
