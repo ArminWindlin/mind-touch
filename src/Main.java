@@ -9,12 +9,14 @@ public class Main extends Application {
 
     private Stage window;
     private Scene menuScene;
+    private Scene levelsScene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
 
         menuScene = Menu.getMenuScene(this, window);
+        levelsScene = Levels.getLevelsScene(this, window);
 
         window.setTitle("MindTouch");
         window.setOnCloseRequest(e -> closeProgram());
@@ -24,6 +26,14 @@ public class Main extends Application {
 
     void goToMenu() {
         window.setScene(menuScene);
+    }
+
+    void goToLevels() {
+        window.setScene(levelsScene);
+    }
+
+    void goToGame() {
+        window.setScene(new Game(this).getGameScene());
     }
 
     private void closeProgram() {
