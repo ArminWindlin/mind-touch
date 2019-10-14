@@ -10,6 +10,7 @@ class GameController {
     private boolean hasWon;
     private boolean hasLost;
     private int currentLevel;
+    final int maxLevel = 3;
 
     GameController() {
         initialize();
@@ -63,7 +64,9 @@ class GameController {
         if (levelHasBeenLost()) hasLost = true;
 
         if (levelHasBeenWon()) {
-            saveProgress(currentLevel + 1);
+            int saveProgress = currentLevel + 1;
+            if (saveProgress > 3) saveProgress = maxLevel;
+            saveProgress(saveProgress);
             hasWon = true;
         }
     }
@@ -137,7 +140,7 @@ class GameController {
         hasWon = false;
         currentLevel++;
         // level restriction
-        if (currentLevel > 3) currentLevel = 1;
+        if (currentLevel > maxLevel) currentLevel = 1;
         setLevel();
     }
 
