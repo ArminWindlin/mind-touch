@@ -58,6 +58,7 @@ class Game {
             }
             gameView.drawLevel(gameController.getLevel());
             int amountOfMoves = gameController.move(code);
+            if (amountOfMoves == 0) return;
             gameView.drawGridWithAnimation(gameController.getGrid());
 
             // Do teleportation

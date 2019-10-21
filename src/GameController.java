@@ -50,6 +50,7 @@ class GameController {
                 moveObject2 = level.getControls().getDown();
                 break;
             default:
+                return 0;
         }
 
         switch (moveObject2) {
@@ -72,7 +73,7 @@ class GameController {
 
         if (levelHasBeenWon()) {
             int saveProgress = currentLevel + 1;
-            if (saveProgress > 3) saveProgress = maxLevel;
+            if (saveProgress > maxLevel) saveProgress = maxLevel;
             saveProgress(saveProgress);
             hasWon = true;
         }
