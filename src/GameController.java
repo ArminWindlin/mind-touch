@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 class GameController {
 
@@ -12,7 +14,7 @@ class GameController {
     private boolean hasWon;
     private boolean hasLost;
     private int currentLevel;
-    final int maxLevel = 5;
+    final int maxLevel = 6;
 
     GameController() {
         initialize();
@@ -152,6 +154,18 @@ class GameController {
         // get position of octagon 1 and 2
         octagon1 = gameBoard.getObject1();
         octagon2 = gameBoard.getObject2();
+
+        // set timer
+        if (level.hasTimer()) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    hasLost = true;
+                    System.out.println("loost");
+                }
+            }, level.getTimerInSeconds() * 1000);
+        }
     }
 
     void nextLevel() {
