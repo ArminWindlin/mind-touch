@@ -1,6 +1,4 @@
 import java.io.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 class GameController {
 
@@ -10,11 +8,9 @@ class GameController {
     private GameObject octagon1;
     private GameObject octagon2;
     private TeleportMove teleportMove;
-    private Timer timer;
     private boolean teleporting;
     private boolean hasWon;
     private boolean hasLost;
-    private boolean levelHasStarted;
     private int currentLevel;
     final int maxLevel = 7;
 
@@ -23,24 +19,18 @@ class GameController {
     }
 
     private void initialize() {
-        // load level based on progress of player
-        currentLevel = getProgress();
-        setLevel();
-
-        // initialize other variables
+        // initialize variables
         hasWon = false;
         hasLost = false;
         teleporting = false;
-        timer = new Timer();
+
+        // load level based on progress of player
+        currentLevel = getProgress();
+        setLevel();
     }
 
     int move(String keyCode) {
         int moveObject2 = -1;
-
-        if (!levelHasStarted) {
-            levelHasStarted = true;
-            if (level.hasTimer()) startTimer();
-        }
 
         switch (keyCode) {
             case "LEFT":
@@ -162,8 +152,6 @@ class GameController {
         // get position of octagon 1 and 2
         octagon1 = gameBoard.getObject1();
         octagon2 = gameBoard.getObject2();
-
-        levelHasStarted = false;
     }
 
     void nextLevel() {
@@ -199,18 +187,6 @@ class GameController {
         grid[teleportMove.y2][teleportMove.x2] = teleportMove.gameObject.type;
         teleportMove.gameObject.x = teleportMove.x2;
         teleportMove.gameObject.y = teleportMove.y2;
-    }
-
-    private void startTimer() {
-        level.setTimerTimestamp(System.currentTimeMillis() + level.getTimerInSeconds() * 1000);
-        timer.cancel();
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                hasLost = true;
-            }
-        }, level.getTimerInSeconds() * 1000);
     }
 
     int[][] getGrid() {

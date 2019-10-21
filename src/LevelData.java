@@ -30,7 +30,7 @@ class LevelData {
         for (int i = 0; i < grid.length; i++) {
             System.arraycopy(grid[i], 0, gridCopy[i], 0, grid[i].length);
         }
-        return new Level(new GameBoard(gridCopy), level, new ControlSettings(controls[level]), hasTimer[level], timer[level]);
+        return new Level(new GameBoard(gridCopy), level, new ControlSettings(controls[level]));
     }
 
     private static int[][] controls = new int[][]{
@@ -42,28 +42,6 @@ class LevelData {
             {2, 1, 0, 3}, // lvl 5
             {0, 1, 0, 3}, // lvl 6
             {2, 3, 0, 1}, // lvl 7
-    };
-
-    private static boolean[] hasTimer = new boolean[]{
-            false, // lvl 0
-            false, // lvl 1
-            false, // lvl 2
-            false, // lvl 3
-            false, // lvl 4
-            false, // lvl 5
-            false, // lvl 6
-            true, // lvl 7
-    };
-
-    private static int[] timer = new int[]{
-            0, // lvl 0
-            0, // lvl 1
-            0, // lvl 2
-            0, // lvl 3
-            0, // lvl 4
-            0, // lvl 5
-            0, // lvl 6
-            10, // lvl 7
     };
 
     private static int[][] level1 = new int[][]{
