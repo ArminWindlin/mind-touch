@@ -7,10 +7,12 @@ class GameController {
     private int[][] grid;
     private GameObject octagon1;
     private GameObject octagon2;
+    private TeleportMove teleportMove;
+    private boolean teleporting;
     private boolean hasWon;
     private boolean hasLost;
     private int currentLevel;
-    final int maxLevel = 4;
+    final int maxLevel = 5;
 
     GameController() {
         initialize();
@@ -20,9 +22,14 @@ class GameController {
         // load level based on progress of player
         currentLevel = getProgress();
         setLevel();
+
+        // initialize other variables
+        hasWon = false;
+        hasLost = false;
+        teleporting = false;
     }
 
-    void move(String keyCode) {
+    int move(String keyCode) {
         int moveObject2 = -1;
 
         switch (keyCode) {
@@ -69,6 +76,9 @@ class GameController {
             saveProgress(saveProgress);
             hasWon = true;
         }
+
+        if (!hasLost && !hasWon && teleporting) return 2;
+        return 1;
     }
 
     private boolean levelHasBeenWon() {
@@ -90,7 +100,9 @@ class GameController {
     private void moveRight(GameObject gameObject) {
         int x = gameObject.x;
         int y = gameObject.y;
-        if (x + 1 < grid[y].length && grid[y][x + 1] == 0) {
+        // If possible to move, make move
+        if (x + 1 < grid[y].length && (grid[y][x + 1] == 0 || grid[y][x + 1] == 8)) {
+            if (grid[y][x + 1] == 8) teleportPreparation(y, x + 1, gameObject);
             grid[y][x] = 0;
             grid[y][x + 1] = gameObject.type;
             gameObject.x++;
@@ -100,7 +112,9 @@ class GameController {
     private void moveLeft(GameObject gameObject) {
         int x = gameObject.x;
         int y = gameObject.y;
-        if (x - 1 >= 0 && grid[y][x - 1] == 0) {
+        // If possible to move, make move
+        if (x - 1 >= 0 && (grid[y][x - 1] == 0 || grid[y][x - 1] == 8)) {
+            if (grid[y][x - 1] == 8) teleportPreparation(y, x - 1, gameObject);
             grid[y][x] = 0;
             grid[y][x - 1] = gameObject.type;
             gameObject.x--;
@@ -110,7 +124,9 @@ class GameController {
     private void moveUp(GameObject gameObject) {
         int x = gameObject.x;
         int y = gameObject.y;
-        if (y - 1 >= 0 && grid[y - 1][x] == 0) {
+        // If possible to move, make move
+        if (y - 1 >= 0 && (grid[y - 1][x] == 0 || grid[y - 1][x] == 8)) {
+            if (grid[y - 1][x] == 8) teleportPreparation(y - 1, x, gameObject);
             grid[y][x] = 0;
             grid[y - 1][x] = gameObject.type;
             gameObject.y--;
@@ -120,7 +136,9 @@ class GameController {
     private void moveDown(GameObject gameObject) {
         int x = gameObject.x;
         int y = gameObject.y;
-        if (y + 1 < grid.length && grid[y + 1][x] == 0) {
+        // If possible to move, make move
+        if (y + 1 < grid.length && (grid[y + 1][x] == 0 || grid[y + 1][x] == 8)) {
+            if (grid[y + 1][x] == 8) teleportPreparation(y + 1, x, gameObject);
             grid[y][x] = 0;
             grid[y + 1][x] = gameObject.type;
             gameObject.y++;
@@ -147,6 +165,28 @@ class GameController {
     void restartLevel() {
         hasLost = false;
         setLevel();
+    }
+
+    void teleportPreparation(int y, int x, GameObject gameObject) {
+        grid[y][x] = 0;
+        teleporting = true;
+        // find second teleporter
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] == 8) {
+                    teleportMove = new TeleportMove(x, y, j, i, gameObject);
+                    break;
+                }
+            }
+        }
+    }
+
+    void teleport() {
+        teleporting = false;
+        grid[teleportMove.y1][teleportMove.x1] = 0;
+        grid[teleportMove.y2][teleportMove.x2] = teleportMove.gameObject.type;
+        teleportMove.gameObject.x = teleportMove.x2;
+        teleportMove.gameObject.y = teleportMove.y2;
     }
 
     int[][] getGrid() {

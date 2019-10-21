@@ -16,6 +16,9 @@ class GameView {
     private Game game;
     private GraphicsContext gc;
     private int[][] previousGrid;
+    private int[][] queuedGrid;
+    private Level lastLevel;
+    private Boolean gridInQueue;
     private Image octagon1;
     private Image octagon2;
     private Image arrowLeft;
@@ -27,6 +30,7 @@ class GameView {
         this.main = main;
         this.game = game;
         this.canvas = canvas;
+        this.gridInQueue = false;
 
         gc = canvas.getGraphicsContext2D();
         previousGrid = new int[17][30];
@@ -76,6 +80,10 @@ class GameView {
                         break;
                     case 7:
                         gc.setFill(Color.rgb(244, 67, 54));
+                        gc.fillRect(j * 40, i * 40, 40, 40);
+                        break;
+                    case 8:
+                        gc.setFill(Color.rgb(175, 82, 222));
                         gc.fillRect(j * 40, i * 40, 40, 40);
                         break;
                     default:
@@ -138,11 +146,23 @@ class GameView {
                     if (a.distance >= 40) {
                         this.stop();
                         game.keyLock.unlock();
+                        // Draw queue grid after animation
+                        // At the moment only used for  portal (teleportation after animation)
+                        if (gridInQueue) {
+                            drawGrid(queuedGrid);
+                            drawHUD(lastLevel);
+                            gridInQueue = false;
+                        }
                     }
                 });
             }
         };
         animationTimer.start();
+    }
+
+    void queueGridDraw(int[][] grid) {
+        gridInQueue = true;
+        queuedGrid = grid;
     }
 
     void drawWin() {
@@ -166,6 +186,7 @@ class GameView {
     }
 
     void drawHUD(Level level) {
+        lastLevel = level;
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         gc.setFill(Color.BLACK);
         gc.fillText("LEVEL " + level.getLevelNumber(), 20, 35);

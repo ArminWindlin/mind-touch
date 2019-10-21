@@ -2,10 +2,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Objects;
 
 class Game {
@@ -61,8 +57,14 @@ class Game {
                 return;
             }
             gameView.drawLevel(gameController.getLevel());
-            gameController.move(code);
+            int amountOfMoves = gameController.move(code);
             gameView.drawGridWithAnimation(gameController.getGrid());
+
+            // Do teleportation
+            if (amountOfMoves > 1) {
+                gameController.teleport();
+                gameView.queueGridDraw(gameController.getGrid());
+            }
 
             if (gameController.hasBeenWon()) {
                 winLock.lock();
