@@ -25,12 +25,14 @@ class GameView {
     private Image arrowRight;
     private Image arrowDown;
     private Image arrowUp;
+    private boolean timerActive;
 
     GameView(Main main, Game game, Canvas canvas) {
         this.main = main;
         this.game = game;
         this.canvas = canvas;
         this.gridInQueue = false;
+        this.timerActive = false;
 
         gc = canvas.getGraphicsContext2D();
         previousGrid = new int[17][30];
@@ -194,6 +196,28 @@ class GameView {
         gc.drawImage(getControlsImage(level.getControls().getRight()), main.WINDOW_WIDTH - 30, 32);
         gc.drawImage(getControlsImage(level.getControls().getDown()), main.WINDOW_WIDTH - 55, 32);
         gc.drawImage(getControlsImage(level.getControls().getLeft()), main.WINDOW_WIDTH - 80, 32);
+
+        // countdown
+        if (level.hasTimer() && level.getTimerTimestamp() != 0) {
+            int remainingTime = (int) (level.getTimerTimestamp() - System.currentTimeMillis()) / 1000;
+            gc.fillText(remainingTime + "s", main.WINDOW_WIDTH / 2 - 20, 35);
+        }
+        // TODO: implement better countdown
+        /*if (level.hasTimer() && level.getTimerTimestamp() != 0) {
+            gc.setFill(Color.WHITE);
+            gc.fillRect(main.WINDOW_WIDTH / 2 - 90, 0,180, 50);
+            int remainingTime = (int) (level.getTimerTimestamp() - System.currentTimeMillis()) / 1000;
+            gc.setFill(Color.BLACK);
+            gc.fillText(remainingTime + "s", main.WINDOW_WIDTH / 2 - 20, 35);
+            if (timerActive) return;
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    drawHUD(lastLevel);
+                }
+            }, 1000);
+        }*/
     }
 
     Image getControlsImage(int controlIndicator) {

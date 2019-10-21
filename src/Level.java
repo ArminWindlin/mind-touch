@@ -1,3 +1,5 @@
+import java.util.Date;
+
 public class Level {
 
     private GameBoard gameBoard;
@@ -6,22 +8,16 @@ public class Level {
     private ControlSettings controls;
     private boolean hasTimer;
     private int timerInSeconds;
+    private long timerTimestamp;
 
-    public Level(GameBoard gameBoard, int levelNumber, ControlSettings controls) {
+    public Level(GameBoard gameBoard, int levelNumber, ControlSettings controls, boolean hasTimer, int timerInSeconds) {
         this.gameBoard = gameBoard;
         this.levelNumber = levelNumber;
         this.controls = controls;
         this.grid = gameBoard.getGrid();
-        this.hasTimer = false;
-    }
-
-    public Level(GameBoard gameBoard, int levelNumber, ControlSettings controls, int timerInSeconds) {
-        this.gameBoard = gameBoard;
-        this.levelNumber = levelNumber;
-        this.controls = controls;
-        this.grid = gameBoard.getGrid();
-        this.hasTimer = false;
+        this.hasTimer = hasTimer;
         this.timerInSeconds = timerInSeconds;
+        this.timerTimestamp = 0;
     }
 
     public GameBoard getGameBoard() {
@@ -68,4 +64,11 @@ public class Level {
         this.timerInSeconds = timerInSeconds;
     }
 
+    public long getTimerTimestamp() {
+        return timerTimestamp;
+    }
+
+    public void setTimerTimestamp(long timerDate) {
+        this.timerTimestamp = timerDate;
+    }
 }
