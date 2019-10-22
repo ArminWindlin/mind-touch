@@ -12,7 +12,7 @@ class GameController {
     private boolean hasWon;
     private boolean hasLost;
     private int currentLevel;
-    final int maxLevel = 7;
+    final int maxLevel = 8;
 
     GameController() {
         initialize();
