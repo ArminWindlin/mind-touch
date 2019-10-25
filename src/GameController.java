@@ -12,19 +12,21 @@ class GameController {
     private int currentLevel;
     final int maxLevel = 8;
 
-    GameController() {
-        initialize();
+    GameController(int level) {
+        initialize(level);
     }
 
-    private void initialize() {
+    private void initialize(int level) {
         // initialize variables
         hasWon = false;
         hasLost = false;
         teleporting = false;
 
-        // load level based on progress of player
-        currentLevel = LocalStorage.getProgress();
+        // load level based on given level or progress of player
+        if (level > -1) currentLevel = level;
+        else currentLevel = LocalStorage.getProgress();
         if (currentLevel > maxLevel) currentLevel = maxLevel;
+
         setLevel();
     }
 

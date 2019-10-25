@@ -11,6 +11,7 @@ class Game {
     private Canvas canvas;
     private GameView gameView;
     private GameController gameController;
+    private int level;
     KeyLock keyLock;
     KeyLock winLock;
 
@@ -18,8 +19,9 @@ class Game {
         return gameScene;
     }
 
-    Game(Main main) {
+    Game(Main main, int level) {
         this.main = main;
+        this.level = level;
         this.start();
     }
 
@@ -34,7 +36,7 @@ class Game {
         gameView = new GameView(main, this, canvas);
 
         // controller
-        gameController = new GameController();
+        gameController = new GameController(level);
 
         // draw level
         gameView.drawLevel(gameController.getLevel());

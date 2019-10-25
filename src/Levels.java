@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -17,13 +18,24 @@ class Levels {
         Canvas canvas = new Canvas(main.WINDOW_WIDTH, main.WINDOW_HEIGHT);
         root.getChildren().add(canvas);
         Scene scene = new Scene(root);
+        int currentLevel = LocalStorage.getProgress();
 
         scene.setOnMouseClicked(e -> {
-            int x = (int) Math.floor(e.getX());
-            int y = (int) Math.floor(e.getY());
+            int mouseX = (int) Math.floor(e.getX());
+            int mouseY = (int) Math.floor(e.getY());
 
-            if (isInsideRect(300, 150, 600, 100, x, y)) {
-
+            for (int i = 1; i <= 10; i++) {
+                int y = 160 + (int) Math.floor(i / 6) * 200;
+                int x = 180 * ((i - 1) % 5 + 1);
+                if (isInsideRect(x, y, 100, 100, mouseX, mouseY)) {
+                    if (i <= currentLevel) main.goToGame(i);
+                    else {
+                        GraphicsContext gc = canvas.getGraphicsContext2D();
+                        gc.setTextAlign(TextAlignment.CENTER);
+                        gc.setFont(Font.font("Verdana", 25));
+                        gc.fillText("Solve the previous levels first", 600, 100);
+                    }
+                }
             }
         });
 
@@ -46,10 +58,9 @@ class Levels {
         gc.setFill(Color.BLACK);
         gc.setStroke(Color.BLACK);
 
-        int maxLevel = 10;
         int currentLevel = LocalStorage.getProgress();
         // draw list of levels
-        for (int i = 1; i <= maxLevel; i++) {
+        for (int i = 1; i <= 10; i++) {
             int y = 160 + (int) Math.floor(i / 6) * 200;
             int x = 180 * ((i - 1) % 5 + 1);
             // background
@@ -61,8 +72,9 @@ class Levels {
             gc.setFill(Color.BLACK);
             gc.strokeRect(x, y, 100, 100);
             // number
-            if (i < 10) gc.fillText("" + i, x + 30, y + 70);
-            else gc.fillText("" + i, x + 5, y + 70);
+            gc.setTextAlign(TextAlignment.CENTER);
+            if (i < 10) gc.fillText("" + i, x + 50, y + 70);
+            else gc.fillText("" + i, x + 50, y + 70);
         }
     }
 

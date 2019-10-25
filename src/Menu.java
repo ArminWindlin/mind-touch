@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -24,17 +25,21 @@ class Menu {
 
             // play button
             if (isInsideRect(300, 150, 600, 100, x, y))
-                main.goToGame();
+                main.goToGame(-1);
 
             // levels button
             if (isInsideRect(300, 350, 600, 100, x, y))
-                main.goToLevels();
+                try {
+                    main.goToLevels();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
         });
 
         scene.setOnKeyPressed(e -> {
             String code = e.getCode().toString();
             if (Objects.equals(code, "SPACE") || Objects.equals(code, "ENTER")) {
-                window.setScene(new Game(main).getGameScene());
+                main.goToGame(-1);
             }
         });
 
@@ -50,11 +55,12 @@ class Menu {
         gc.fillRect(0, 0, height, width);
         gc.strokeRect(300, 150, 600, 100);
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
+        gc.setTextAlign(TextAlignment.CENTER);
         gc.setFill(Color.BLACK);
-        gc.fillText("PLAY", 500, 225);
+        gc.fillText("PLAY", width / 2, 225);
         gc.strokeRect(300, 350, 600, 100);
         gc.setFill(Color.BLACK);
-        gc.fillText("LEVELS", 460, 425);
+        gc.fillText("LEVELS", width / 2, 425);
     }
 
     private static boolean isInsideRect(int rectX, int rectY, int rectWidth, int rectHeight, int x, int y) {
