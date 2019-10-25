@@ -46,10 +46,23 @@ class Levels {
         gc.setFill(Color.BLACK);
         gc.setStroke(Color.BLACK);
 
-        int maxLevel = 4;
+        int maxLevel = 10;
+        int currentLevel = LocalStorage.getProgress();
+        // draw list of levels
         for (int i = 1; i <= maxLevel; i++) {
-            gc.strokeRect(150 * i, 100, 100, 100);
-            gc.fillText("" + i, 150 * i + 30, 170);
+            int y = 160 + (int) Math.floor(i / 6) * 200;
+            int x = 180 * ((i - 1) % 5 + 1);
+            // background
+            gc.setFill(Color.rgb(255, 204, 0));
+            if (i < currentLevel) gc.fillRect(x, y, 100, 100);
+            gc.setFill(Color.rgb(20, 136, 255));
+            if (i == currentLevel) gc.fillRect(x, y, 100, 100);
+            // rectangle
+            gc.setFill(Color.BLACK);
+            gc.strokeRect(x, y, 100, 100);
+            // number
+            if (i < 10) gc.fillText("" + i, x + 30, y + 70);
+            else gc.fillText("" + i, x + 5, y + 70);
         }
     }
 
