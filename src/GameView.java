@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -189,11 +190,18 @@ class GameView {
         lastLevel = level;
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         gc.setFill(Color.BLACK);
+        gc.setTextAlign(TextAlignment.LEFT);
         gc.fillText("LEVEL " + level.getLevelNumber(), 20, 35);
         gc.drawImage(getControlsImage(level.getControls().getUp()), main.WINDOW_WIDTH - 55, 7);
         gc.drawImage(getControlsImage(level.getControls().getRight()), main.WINDOW_WIDTH - 30, 32);
         gc.drawImage(getControlsImage(level.getControls().getDown()), main.WINDOW_WIDTH - 55, 32);
         gc.drawImage(getControlsImage(level.getControls().getLeft()), main.WINDOW_WIDTH - 80, 32);
+        // show tutorial text if level 1
+        if(level.getLevelNumber() == 1){
+            gc.setTextAlign(TextAlignment.CENTER);
+            gc.setFont(Font.font("Verdana", 20));
+            gc.fillText("Make the two octagons touch each other", main.WINDOW_WIDTH / 2, 35);
+        }
     }
 
     Image getControlsImage(int controlIndicator) {
