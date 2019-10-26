@@ -10,7 +10,7 @@ class GameController {
     private boolean hasWon;
     private boolean hasLost;
     private int currentLevel;
-    final int maxLevel = 8;
+    private final int maxLevel = 10;
 
     GameController(int level) {
         initialize(level);

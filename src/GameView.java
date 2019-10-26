@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 class GameView {
-    private Canvas canvas;
     private Main main;
     private Game game;
     private GraphicsContext gc;
@@ -30,7 +29,6 @@ class GameView {
     GameView(Main main, Game game, Canvas canvas) {
         this.main = main;
         this.game = game;
-        this.canvas = canvas;
         this.gridInQueue = false;
 
         gc = canvas.getGraphicsContext2D();
