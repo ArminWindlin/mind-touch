@@ -1,19 +1,19 @@
-public class KeyLock {
+class KeyLock {
     private boolean isLocked;
 
-    public boolean isLocked() {
+    boolean isLocked() {
         return isLocked;
     }
 
-    public void lock() {
+    void lock() {
         isLocked = true;
     }
 
-    public void unlock() {
+    void unlock() {
         isLocked = false;
     }
 
-    public KeyLock(){
+    KeyLock(){
         this.isLocked = false;
     }
 }

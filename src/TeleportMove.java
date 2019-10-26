@@ -1,4 +1,4 @@
-public class TeleportMove {
+class TeleportMove {
 
     int x1;
     int y1;
@@ -11,7 +11,7 @@ public class TeleportMove {
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
-        this.gameObject  = gameObject;
+        this.gameObject = gameObject;
     }
 
 }

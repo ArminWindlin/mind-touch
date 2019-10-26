@@ -31,7 +31,7 @@ class GameController {
     }
 
     int move(String keyCode) {
-        int moveObject2 = -1;
+        int moveObject2;
 
         switch (keyCode) {
             case "LEFT":

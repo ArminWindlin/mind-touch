@@ -1,4 +1,4 @@
-public class ObjectAnimationInformation {
+class ObjectAnimationInformation {
 
     int x1;
     int y1;
@@ -10,7 +10,7 @@ public class ObjectAnimationInformation {
     int directionY;
 
 
-    public ObjectAnimationInformation(int x1, int y1, int x2, int y2, int type) {
+    ObjectAnimationInformation(int x1, int y1, int x2, int y2, int type) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;

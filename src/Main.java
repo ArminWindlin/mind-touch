@@ -14,7 +14,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
 
-        menuScene = Menu.getMenuScene(this, window);
+        menuScene = Menu.getMenuScene(this);
 
         window.setTitle("MindTouch");
         window.setOnCloseRequest(e -> closeProgram());
@@ -27,7 +27,7 @@ public class Main extends Application {
     }
 
     void goToLevels() throws Exception {
-        window.setScene(Levels.getLevelsScene(this, window));
+        window.setScene(Levels.getLevelsScene(this));
     }
 
     void goToGame(int level) {

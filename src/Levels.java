@@ -6,13 +6,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.util.Objects;
 
 class Levels {
 
-    static Scene getLevelsScene(Main main, Stage window) throws Exception {
+    static Scene getLevelsScene(Main main) throws Exception {
 
         Group root = new Group();
         Canvas canvas = new Canvas(main.WINDOW_WIDTH, main.WINDOW_HEIGHT);

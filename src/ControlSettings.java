@@ -1,4 +1,4 @@
-public class ControlSettings {
+class ControlSettings {
 
     private int up;
     private int down;
@@ -12,19 +12,19 @@ public class ControlSettings {
         this.left = controls[3];
     }
 
-    public int getUp() {
+    int getUp() {
         return up;
     }
 
-    public int getDown() {
+    int getDown() {
         return down;
     }
 
-    public int getLeft() {
+    int getLeft() {
         return left;
     }
 
-    public int getRight() {
+    int getRight() {
         return right;
     }
 

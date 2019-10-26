@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class LocalStorage {
+class LocalStorage {
     static int getProgress() {
         String fileName = "progress.txt";
         String line = "1";
