@@ -171,7 +171,8 @@ class GameView {
         gc.setGlobalAlpha(1);
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
         gc.setFill(Color.BLACK);
-        gc.fillText("YOU WIN!", 440, 200);
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.fillText("YOU WIN!", main.WINDOW_WIDTH / 2, 200);
     }
 
     void drawLoss() {
@@ -181,7 +182,8 @@ class GameView {
         gc.setGlobalAlpha(1);
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
         gc.setFill(Color.BLACK);
-        gc.fillText("OOPS, YOU LOST", 380, 200);
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.fillText("OOPS, YOU LOST", main.WINDOW_WIDTH / 2, 200);
     }
 
     void drawHUD(Level level) {
@@ -195,7 +197,7 @@ class GameView {
         gc.drawImage(getControlsImage(level.getControls().getDown()), main.WINDOW_WIDTH - 55, 32);
         gc.drawImage(getControlsImage(level.getControls().getLeft()), main.WINDOW_WIDTH - 80, 32);
         // show tutorial text if level 1
-        if(level.getLevelNumber() == 1){
+        if (level.getLevelNumber() == 1) {
             gc.setTextAlign(TextAlignment.CENTER);
             gc.setFont(Font.font("Verdana", 20));
             gc.fillText("Make the two octagons touch each other", main.WINDOW_WIDTH / 2, 35);
